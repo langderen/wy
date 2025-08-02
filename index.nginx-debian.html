@@ -1,0 +1,407 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wylog</title>
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航栏 */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+            .nav-links li {
+                margin-left: 30px;
+            }
+
+            .nav-links a {
+                text-decoration: none;
+                color: var(--dark-color);
+                font-weight: 500;
+                transition: color 0.3s;
+            }
+
+                .nav-links a:hover {
+                    color: var(--primary-color);
+                }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+            .btn:hover {
+                background-color: #3a5bef;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+        /* 英雄区域 */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+            .hero h1 {
+                font-size: 48px;
+                margin-bottom: 20px;
+                color: var(--dark-color);
+            }
+
+            .hero p {
+                font-size: 20px;
+                color: var(--secondary-color);
+                max-width: 700px;
+                margin: 0 auto 40px;
+            }
+
+        /* 特性区域 */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+            .section-title h2 {
+                font-size: 36px;
+                color: var(--dark-color);
+                margin-bottom: 15px;
+            }
+
+            .section-title p {
+                color: var(--secondary-color);
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            padding: 30px;
+            transition: all 0.3s;
+        }
+
+            .feature-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        /* 联系表单 */
+        .contact {
+            padding: 80px 0;
+            background-color: #f5f7fa;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 500;
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--light-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+            .footer-links li {
+                margin-bottom: 10px;
+            }
+
+            .footer-links a {
+                color: #adb5bd;
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+
+                .footer-links a:hover {
+                    color: white;
+                }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 14px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            nav {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-links {
+                margin-top: 20px;
+            }
+
+                .nav-links li {
+                    margin: 0 10px;
+                }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="http://wy667.cloudns.biz" class="logo">wylog</a>
+                <ul class="nav-links">
+                    <li><a href="index.nginx-debian.html">首页</a></li>
+                    <li><a href="software.html">软件</a></li>
+                    <li><a href="homework.html">作业</a></li>
+                    <li><a href="aboutus.html">关于我们</a></li>
+                    <li><a href="contract.html">联系</a></li>
+                </ul>
+                <a href="howareyou.html" class="btn">你好吗</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <h1>打造卓越的体验</h1>
+            <p>本网站页面设计全部由DeepSeek-v3最新版大模型设计并编写。</p>
+            <a href="https://chat.baidu.com/" class="btn">了解更多</a>
+        </div>
+    </section>
+
+    <!-- 特性区域 -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>我们的优势</h2>
+                <p>我们打cs能5杀</p>
+                <video width="640" height="360" controls>
+                    <source src="mp4/perfectMoment_9214045819068520460_9.mp4" type="video/mp4">
+                    <source src="video.webm" type="video/webm">
+                    浏览器不支持视频时显示此文本
+                </video>
+
+
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>精美设计</h3>
+                    <p>我们的ai设计师将为您打造令人惊叹的用户界面，提升品牌形象和用户体验。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>极速性能</h3>
+                    <p>优化每一行代码，确保您的网站加载速度快如闪电，提升用户满意度和转化率。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>无安全保障</h3>
+                    <p>采用完全开放的安全技术保护您的数据和用户隐私，让你的数据以及服务器暴漏在大众视野之下。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>响应式布局</h3>
+                    <p>完美适配各种设备屏幕尺寸，手机上观看视频体验感不佳。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>持续更新</h3>
+                    <p>我们不断更新和改进产品功能，确保您始终拥有最前沿的技术支持。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>数据分析</h3>
+                    <p>提供详细的数据分析和报告，帮助您了解用户行为并做出明智的商业决策。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>关于我们</h3>
+                    <p>我们是一家专注于网页设计和开发的公司，致力于为客户提供高质量的数字化解决方案。</p>
+                </div>
+
+                <div class="footer-column">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.nginx-debian.html">首页</a></li>
+                        <li><a href="https://github.com/langderen">产品</a></li>
+                        <li><a href="#">服务</a></li>
+                        <li><a href="https://blog.csdn.net/wyhelloworld?spm=1000.2115.3001.5343">博客</a></li>
+                        <li><a href="#">常见问题</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>服务</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.nginx-debian.html">首页</a></li>
+                        <li><a href="software.html">软件</a></li>
+                        <li><a href="homework.html">作业</a></li>
+                        <li><a href="aboutus.html">关于我们</a></li>
+                        <li><a href="contract.html">联系</a></li>
+
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>联系方式</h3>
+                    <ul class="footer-links">
+                        <li>温州理工学院滨海校区宿舍区5-302</li>
+                        <li>电话: 19588091990</li>
+                        <li>邮箱: 3295586320@qq.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 wylog保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

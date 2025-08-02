@@ -1,0 +1,499 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作业分类 - wylog</title>
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航栏 */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+            .nav-links li {
+                margin-left: 30px;
+            }
+
+            .nav-links a {
+                text-decoration: none;
+                color: var(--dark-color);
+                font-weight: 500;
+                transition: color 0.3s;
+            }
+
+                .nav-links a:hover {
+                    color: var(--primary-color);
+                }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+            .btn:hover {
+                background-color: #3a5bef;
+            }
+
+        /* 作业分类展示区 */
+        .assignment-hero {
+            padding: 60px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+
+            .assignment-hero h1 {
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+                color: var(--dark-color);
+            }
+
+            .assignment-hero p {
+                font-size: 1.2rem;
+                color: var(--secondary-color);
+                max-width: 700px;
+                margin: 0 auto 30px;
+            }
+
+        /* 分类筛选 */
+        .filter-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background-color: var(--light-color);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .filter-btn:hover, .filter-btn.active {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+        /* 作业分类展示 */
+        .assignments {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+            .section-title h2 {
+                font-size: 2rem;
+                color: var(--dark-color);
+                margin-bottom: 15px;
+            }
+
+            .section-title p {
+                color: var(--secondary-color);
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+        .assignment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .assignment-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+            .assignment-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+
+        .assignment-image {
+            height: 200px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-color);
+        }
+
+        .assignment-info {
+            padding: 25px;
+        }
+
+            .assignment-info h3 {
+                font-size: 1.3rem;
+                margin-bottom: 10px;
+                color: var(--dark-color);
+            }
+
+        .assignment-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        .assignment-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            background-color: var(--light-color);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .tag-programming {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .tag-math {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+
+        .tag-science {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .tag-language {
+            background-color: #f3e5f5;
+            color: #8e24aa;
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--light-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+            .footer-links li {
+                margin-bottom: 10px;
+            }
+
+            .footer-links a {
+                color: #adb5bd;
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+
+                .footer-links a:hover {
+                    color: white;
+                }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 14px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .assignment-hero h1 {
+                font-size: 2rem;
+            }
+
+            .assignment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="http://wy667.cloudns.biz" class="logo">wylog</a>
+                <ul class="nav-links">
+                    <li><a href="index.nginx-debian.html">首页</a></li>
+                    <li><a href="software.html">软件</a></li>
+                    <li><a href="homework.html">作业</a></li>
+                    <li><a href="aboutus.html">关于我们</a></li>
+                    <li><a href="contract.html">联系</a></li>
+                </ul>
+                <a href="howareyou.html" class="btn">你好吗</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="assignments">
+        <div class="container">
+            <div class="section-title">
+                <h2>作业分类</h2>
+                <p>选择你感兴趣的作业类别查看详细资源</p>
+            </div>
+
+            <div class="assignment-grid">
+                <!-- 作业卡片1 -->
+                <div class="assignment-card">
+
+                    <div class="assignment-info">
+                        <h3>计算机组成原理</h3>
+                        <div class="assignment-meta">
+                            <span>截止: 2099/01/01</span>
+                            <span>w老师</span>
+                        </div>
+                        <div>
+                            <span class="assignment-tag tag-programming">编程</span>
+                            <span class="assignment-tag">C++</span>
+                            <span class="assignment-tag">算法</span>
+                        </div>
+                        <p>包括了每次计组课的作业</p>
+                        <a href="homework/jizu/计组_实验1.pdf" class="btn" style="display: inline-block; margin-top: 15px;">实验1</a>
+                        <a href="homework/jizu/计组_实验2.pdf" class="btn" style="display: inline-block; margin-top: 15px;">实验2</a>
+                        <a href="homework/jizu/计组_实验3.pdf" class="btn" style="display: inline-block; margin-top: 15px;">实验3</a>
+                        <a href="homework/jizu/计组_实验4.pdf" class="btn" style="display: inline-block; margin-top: 15px;">实验4</a>
+                        <a href="homework/jizu/计组_实验5.pdf" class="btn" style="display: inline-block; margin-top: 15px;">实验5</a>
+                        <a href="homework/jizu/计组_实验6.pdf" class="btn" style="display: inline-block; margin-top: 15px;">实验6</a>
+                        <a href="homework/jizu/计组_实验7_中央处理器.pdf" class="btn" style="display: inline-block; margin-top: 15px;">实验7</a>
+                        <a href="homework/jizu/计组_实验8.pdf" class="btn" style="display: inline-block; margin-top: 15px;">实验8（暂缺）</a>
+                    </div>
+                </div>
+
+                <!-- 作业卡片2 -->
+                <div class="assignment-card">
+
+                    <div class="assignment-info">
+                        <h3>sql数据库实验</h3>
+                        <div class="assignment-meta">
+                            <span>截止: 2023-12-10</span>
+                            <span>李教授</span>
+                        </div>
+                        <div>
+                            <span class="assignment-tag tag-math">sql</span>
+                        </div>
+                        <p>sql万唯考试系统</p>
+                        <a href="homework/sql/7.sql" class="btn" style="display: inline-block; margin-top: 15px;">实验7</a>
+                        <a href="homework/sql/9（35）.zip" class="btn" style="display: inline-block; margin-top: 15px;">实验9</a>
+                    </div>
+                </div>
+
+                <!-- 作业卡片3 -->
+                <div class="assignment-card">
+
+                    <div class="assignment-info">
+                        <h3>算法设计实验</h3>
+                        <div class="assignment-meta">
+                            <span>截止: 2023-12-20</span>
+                            <span>张老师</span>
+                        </div>
+                        <div>
+                            <span class="assignment-tag tag-science">c++</span>
+                            <span class="assignment-tag">算法</span>
+                            <span class="assignment-tag">STL</span>
+                        </div>
+                        <p>完成牛顿第二定律验证实验，记录数据并分析实验结果...</p>
+                        <a href="#" class="btn" style="display: inline-block; margin-top: 15px;">查看详情</a>
+                    </div>
+                </div>
+
+                <!-- 作业卡片4 -->
+                <div class="assignment-card">
+
+                    <div class="assignment-info">
+                        <h3>软件工程实验</h3>
+                        <div class="assignment-meta">
+                            <span>截止: 2023-12-25</span>
+                            <span>陈教授</span>
+                        </div>
+                        <div>
+                            <span class="assignment-tag tag-language">软件工程</span>
+                            <span class="assignment-tag">文档</span>
+                        </div>
+                        <p>撰写一篇关于全球气候变化影响的议论文，字数不少于1500词...</p>
+                        <a href="#" class="btn" style="display: inline-block; margin-top: 15px;">查看详情</a>
+                    </div>
+                </div>
+
+                <!-- 作业卡片5 -->
+                <div class="assignment-card">
+
+                    <div class="assignment-info">
+                        <h3>绘画</h3>
+                        <div class="assignment-meta">
+                            <span>截止: 2024-01-05</span>
+                            <span>赵老师</span>
+                        </div>
+                        <div>
+                            <span class="assignment-tag tag-programming">编程</span>
+                            <span class="assignment-tag">HTML/CSS</span>
+                            <span class="assignment-tag">JavaScript</span>
+                        </div>
+                        <p>使用HTML、CSS和JavaScript开发一个响应式个人作品集网站...</p>
+                        <a href="#" class="btn" style="display: inline-block; margin-top: 15px;">查看详情</a>
+                    </div>
+                </div>
+
+                <!-- 作业卡片6 -->
+                <div class="assignment-card">
+
+                    <div class="assignment-info">
+                        <h3>吃饭</h3>
+                        <div class="assignment-meta">
+                            <span>截止: 2023-12-18</span>
+                            <span>刘教授</span>
+                        </div>
+                        <div>
+                            <span class="assignment-tag tag-math">数学</span>
+                            <span class="assignment-tag">线性代数</span>
+                        </div>
+                        <p>完成矩阵运算、行列式计算和线性方程组求解的相关习题...</p>
+                        <a href="#" class="btn" style="display: inline-block; margin-top: 15px;">查看详情</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>关于我们</h3>
+                    <p>我们是一家专注于网页设计和开发的公司，致力于为客户提供高质量的数字化解决方案。</p>
+                </div>
+
+
+                <div class="footer-column">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.nginx-debian.html">首页</a></li>
+                        <li><a href="https://github.com/langderen">产品</a></li>
+                        <li><a href="#">服务</a></li>
+                        <li><a href="https://blog.csdn.net/wyhelloworld?spm=1000.2115.3001.5343">博客</a></li>
+                        <li><a href="#">常见问题</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>服务</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.nginx-debian.html">首页</a></li>
+                        <li><a href="software.html">软件</a></li>
+                        <li><a href="homework.html">作业</a></li>
+                        <li><a href="aboutus.html">关于我们</a></li>
+                        <li><a href="contract.html">联系</a></li>
+
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>联系方式</h3>
+                    <ul class="footer-links">
+                        <li>温州理工学院滨海校区宿舍区5-302</li>
+                        <li>电话: 19588091990</li>
+                        <li>邮箱: 3295586320@qq.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 wylog保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
