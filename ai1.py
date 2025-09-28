@@ -35,6 +35,7 @@ class Animal:
         self.weight=weight
         self.ishungry=False
         self.healthlever=10
+        self.species='未知'
 
     def die(self,reason):
         print(f'动物{self.name}由于过度{reason}死亡。')
@@ -57,6 +58,31 @@ class Animal:
             self.healthlever=10
             print(f'{self.name}已医治完成。')
 
+class Tiger(Animal):
+    def __init__(self, id, name, age, weight):
+        super().__init__(id, name, age, weight)
+        self.species = '老虎'
+
+
+class Dog(Animal):
+    def __init__(self, id, name, age, weight):
+        super().__init__(id, name, age, weight)
+        self.species = '狗'
+
+class lion(Animal):
+    def __init__(self, id, name, age, weight):
+        super().__init__(id, name, age, weight)
+        self.species = '狮子'
+
+class elephant(Animal):
+    def __init__(self, id, name, age, weight):
+        super().__init__(id, name, age, weight)
+        self.species = '大象'
+
+class monkey(Animal):
+    def __init__(self, id, name, age, weight):
+        super().__init__(id, name, age, weight)
+        self.species = '猴子'
 class zoo:
     def __init__(self):
         self.animals: Dict[int, Animal] = {}
@@ -101,12 +127,28 @@ if __name__ == "__main__":
         if choice == '1':
             
             id=len(manager.animals)+1
+            species=input("物种(老虎/狗/狮子/大象/猴子): ")
+            if species=='老虎':
+                Animal=Tiger
+            elif species=='狗':
+                Animal=Dog
+            elif species=='狮子':
+                Animal=lion
+            elif species=='大象':
+                Animal=elephant
+            elif species=='猴子':
+                Animal=monkey
+            else:
+                print("不支持该物种，添加失败")
+                display_menu()
+                choice = input("请选择操作: ")
+                continue
             name=input("名称: ")
             age=int(input("年龄: "))
             weight=input("体重: ")
             animal = Animal(id,name,age,weight)
             manager.add_animal(animal)
-            print(f"动物{animal.name}{animal.id}添加成功!")
+            print(f"{animal.species}{animal.name}添加成功!")
             
         elif choice == '2':
             animal_id = input("输入要删除的动物id: ")
@@ -134,6 +176,5 @@ if __name__ == "__main__":
         else:
             print("无效选择，请重试")
 
-        time.sleep(1)
         display_menu()
         choice = input("请选择操作: ")
