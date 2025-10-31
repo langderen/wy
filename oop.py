@@ -95,4 +95,4 @@ if __name__=="__main__":
     customer=Customer("许文业")
     seller=Seller("王彧")
     seller.show()
-    customer.buy(seller,car3)
+    customer.buy(seller,car2)
