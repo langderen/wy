@@ -33,3 +33,6 @@ sa-token:
   token-style: uuid
   # 是否输出操作日志
   is-log: true
+
+upload:
+  path: D:/voting/images  # 替换为实际的文件上传路径

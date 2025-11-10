@@ -1,6 +1,8 @@
 package com.example.voting_back.controller;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.voting_back.common.Result;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@SaCheckLogin
 @RestController
 @RequestMapping("/poll")
 public class PollController {
@@ -22,8 +25,8 @@ public class PollController {
     private PollService pollService ;
 
     /*
-    * 创建新的投票活动
-    * */
+     * 创建新的投票活动
+     * */
 
     @PostMapping
     public Result newPoll(@RequestBody Poll poll) {
@@ -33,8 +36,9 @@ public class PollController {
 
 
     /*
-    * 分页获取所有投票列表
-    */
+     * 分页获取所有投票列表
+     */
+    @SaIgnore
     @GetMapping("/voteslist")
     public Result getVotesList(@RequestParam(defaultValue = "1")int pageNum ) {
         IPage<Poll> page = new Page<>(pageNum, 10);
@@ -43,25 +47,26 @@ public class PollController {
         return Result.success(pollList);
     }
     /*
-    * 通过创建者id获取创建者创建的活动
-    * */
+     * 通过创建者id获取创建者创建的活动
+     * */
 
-    @GetMapping("/getvote/{creatorId}")
-    public Result getVotesById(@PathVariable int creatorId ){
+    @GetMapping("/getvote")
+    public Result getVotesById(@RequestParam int creatorId ){
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("creator_id", creatorId);
         Collection<Poll> polls = pollService.listByMap(columnMap);
         return Result.success(polls);
     }
-    @DeleteMapping("/{id}")
-    public Result deletePoll(@PathVariable Long id){
+    @DeleteMapping()
+    public Result deletePoll(@RequestParam Long id){
         return Result.success(pollService.removeById(id));
     }
 
     /*
-    * 修改活动信息*/
+     * 修改活动信息*/
     @PutMapping
     public  Result updatePoll(@RequestBody Poll poll){
+
         return Result.success(pollService.updateById(poll));
     }
 }
